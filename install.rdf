@@ -5,25 +5,16 @@
 
   <Description about="urn:mozilla:install-manifest">
     <em:id>fullscreen@mbrubeck.limpet.net</em:id>
-    <em:version>3.4</em:version>
+    <em:version>4.0</em:version>
     <em:type>2</em:type>
     <em:bootstrap>true</em:bootstrap>
-
-    <em:targetApplication>
-      <!-- Fennec XUL -->
-      <Description>
-        <em:id>{a23983c0-fd0e-11dc-95ff-0800200c9a66}</em:id>
-        <em:minVersion>4.0</em:minVersion>
-        <em:maxVersion>16.0a1</em:maxVersion>
-      </Description>
-    </em:targetApplication>
 
     <em:targetApplication>
       <!-- Fennec Android -->
       <Description>
         <em:id>{aa3c5121-dab2-40e2-81ca-7ea25febc110}</em:id>
-        <em:minVersion>14.0</em:minVersion>
-        <em:maxVersion>16.0a1</em:maxVersion>
+        <em:minVersion>48.0</em:minVersion>
+        <em:maxVersion>52.0a1</em:maxVersion>
       </Description>
     </em:targetApplication>
 

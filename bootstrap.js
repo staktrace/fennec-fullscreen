@@ -44,20 +44,9 @@ var gStringBundle = null;
 
 Components.utils.import("resource://gre/modules/Services.jsm");
 
-function isNativeUI() {
-  let appInfo = Cc["@mozilla.org/xre/app-info;1"].getService(Ci.nsIXULAppInfo);
-  return (appInfo.ID == "{aa3c5121-dab2-40e2-81ca-7ea25febc110}");
-}
-
 function toast(win, msg) {
-  if (isNativeUI())
-    win.NativeWindow.toast.show(msg, "long");
-  else {
-    let toaster = Cc["@mozilla.org/toaster-alerts-service;1"].getService(Ci.nsIAlertsService);
-    toaster.showAlertNotification(null, msg, "", false, "", null);
-  }
+  win.NativeWindow.toast.show(msg, "long");
 }
-
 
 function load(win) {
   if (!gStringBundle)
@@ -75,60 +64,25 @@ function load(win) {
     return enable;
   }
 
-  if (isNativeUI()) {
-    let menuString = gStringBundle.GetStringFromName("fullscreen.menu");
-    gMenuId = win.NativeWindow.menu.add(menuString, enableImg, toggle);
+  let menuString = gStringBundle.GetStringFromName("fullscreen.menu");
+  gMenuId = win.NativeWindow.menu.add(menuString, enableImg, toggle);
 
-    let selector = {
-      matches: function matches() { return win.fullScreen; }
-    };
-    let exitString = gStringBundle.GetStringFromName("fullscreen.exitButton");
-    gContextMenuId = win.NativeWindow.contextmenus.add(exitString, selector, toggle.bind(false));
+  let selector = {
+    matches: function matches() { return win.fullScreen; }
+  };
+  let exitString = gStringBundle.GetStringFromName("fullscreen.exitButton");
+  gContextMenuId = win.NativeWindow.contextmenus.add(exitString, selector, toggle.bind(false));
 
-    let active = true;
-    try {
-      active = Services.prefs.getBoolPref("extensions.fullscreen.active");
-    } catch (e) {}
-    toggle(active);
-  } else {
-    let document = win.document;
-
-    // Create button.
-    let button = document.createElement("toolbarbutton");
-    let buttonLabelString = gStringBundle.GetStringFromName("fullscreen.menu");
-    button.setAttribute("id", "fullscreen-button");
-    button.setAttribute("class", "appmenu-button");
-    button.setAttribute("label", buttonLabelString);
-
-    let menu = document.getElementById("appmenu");
-    menu.insertBefore(button, menu.firstChild);
-
-    function oncommand(enable) {
-      let result = toggle(enable);
-      button.setAttribute("image", result ? disableImg : enableImg);
-    }
-
-    button.addEventListener("command", oncommand, false);
-
-    // setTimeout is needed to avoid a crash
-    win.setTimeout(function() {
-      let active = true;
-      try {
-        active = Services.prefs.getBoolPref("extensions.fullscreen.active");
-      } catch (e) {}
-      oncommand(active);
-    }, 0);
-  }
+  let active = true;
+  try {
+    active = Services.prefs.getBoolPref("extensions.fullscreen.active");
+  } catch (e) {}
+  toggle(active);
 }
 
 function unload(win) {
-  if (isNativeUI()) {
-    win.NativeWindow.menu.remove(gMenuId);
-    win.NativeWindow.contextmenus.remove(gContextMenuId);
-  } else {
-    let button = win.document.getElementById("fullscreen-button");
-    button.parentNode.removeChild(button);
-  }
+  win.NativeWindow.menu.remove(gMenuId);
+  win.NativeWindow.contextmenus.remove(gContextMenuId);
   win.fullScreen = false;
 }
 
