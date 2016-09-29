@@ -13,14 +13,15 @@
       <!-- Fennec Android -->
       <Description>
         <em:id>{aa3c5121-dab2-40e2-81ca-7ea25febc110}</em:id>
-        <em:minVersion>48.0</em:minVersion>
-        <em:maxVersion>52.0a1</em:maxVersion>
+        <em:minVersion>45.0</em:minVersion>
+        <em:maxVersion>55.0a1</em:maxVersion>
       </Description>
     </em:targetApplication>
 
     <em:name>Full Screen</em:name>
     <em:description>Make the browser use the whole screen</em:description>
     <em:creator>Matt Brubeck</em:creator>
+    <em:developer>Kartikaya Gupta</em:developer>
     <em:localized>
       <Description>
         <em:locale>ja</em:locale>
